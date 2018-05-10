@@ -23,11 +23,6 @@ class CommandLineInterface
     end
   end
 
-  # def show_users_sports
-  #   puts "Welcome back, here are your sports"
-  #   #show user.sports
-  # end
-
   def login
     puts "What is the name on your account?"
     name = gets.chomp
@@ -37,11 +32,10 @@ class CommandLineInterface
        @user = User.find_by(name: name)
 
        @user.sports.each{|x| puts x.name}
+
      else
        puts "We don't have an account under that name, yet. Please create one now."
        create_account
-       # new_user = User.create(name: name)
-       # new_user.favorite_sport
      end
    end
 
@@ -50,10 +44,72 @@ class CommandLineInterface
 
      sport_given = gets.chomp
      sport = Sport.find_by(name: sport_given)
+     #^^^^^We should have a method for this^^^^
 
-     new_fav_sport = Subscription.create(name: sport_given, user_id: @user.id, sport_id: sport.id)
+     # new_fav_sport = Subscription.create(name: sport_given, user_id: @user.id, sport_id: sport.id)
+
+     if sport != nil
+       new_sub = Subscription.create(name: "#{@user.name}'s #{sport.name} subscription", sport_id: sport.id, user_id: @user.id)
+       # binding.pry
+     else
+       puts "Sorry, but we don't currently support subscriptions for #{sport_given}."
+       # Maybe add functionality here to tell user all the sports we do offer.
+     end
    end
+
+   def more_info
+
+   end
+
+   def delete_subscription
+     puts "Which subscription would you like to delete?"
+      sport_given = gets.chomp
+      # binding.pry
+      sport = Sport.find_by(name: sport_given)
+      subs = @user.subscriptions.find_by(user_id: @user.id, sport_id: sport.id)
+
+      # binding.pry
+
+      subs.destroy
+      # @user.update
+      puts "You just deleted your #{sport.name} subscription."
+   end
+
+   def show_subscriptions
+     puts "Your current subscriptions are:"
+     @user.subscriptions.reload.each do |sub|
+       puts sub.name
+     end
+   end
+
+   def menu
+     puts "Choose one option:\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+     answer = gets.chomp
+     while answer != "sign out" || answer == "4"
+       if answer == "1"
+         create_subscription
+         puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+         answer = gets.chomp
+         #do we need to update the database now?
+       elsif answer == "2"
+         delete_subscription
+         puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+         answer = gets.chomp
+       elsif answer == "3"
+          show_subscriptions
+          puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+          answer = gets.chomp
+        elsif answer == "4"
+          puts "Thanks for stopping bye. See you soon!"
+          break
+        else
+          puts "Please enter a valid number from options above. \n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+          answer = gets.chomp
+        end
+      end
+    end
 end
+
 
 
   # def favorite_sport
