@@ -83,31 +83,53 @@ class CommandLineInterface
    end
 
    def menu
-     puts "Choose one option:\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+     puts "Choose one option:\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) Show Teams\n 5) sign out"
      answer = gets.chomp
      while answer != "sign out" || answer == "4"
        if answer == "1"
          create_subscription
-         puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+         puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) Show Teams\n 5) sign out"
          answer = gets.chomp
          #do we need to update the database now?
        elsif answer == "2"
          delete_subscription
-         puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+         puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) Show Teams\n 5) sign out"
          answer = gets.chomp
        elsif answer == "3"
           show_subscriptions
-          puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+          puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) Show Teams\n 5) sign out"
           answer = gets.chomp
        elsif answer == "4"
-          puts "Thanks for stopping bye. See you soon!"
-          break
+          show_teams
+          puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) Show Teams\n 5) sign out"
+          answer = gets.chomp
+       elsif answer == "5"
+           puts "Thanks for stopping bye. See you soon!"
+           break
        else
-          puts "Please enter a valid number from options above. \n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
+          puts "Please enter a valid number from options above. \n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) Show Teams\n 5) sign out"
           answer = gets.chomp
        end
      end
    end
+
+   def show_teams
+     puts "What sport would you like more info about?"
+     sport = gets.chomp
+
+     sport_info = Sport.find_by(name: sport)
+
+     puts "Here is a list of the teams for #{sport}"
+     sport_info.teams.each do |x|
+       puts "#{x.name} - #{x.city.name}"
+       # puts x.info
+     end
+   end
+
+   def next_subscribe
+     puts "Would you like to subscribe to #{sport}"
+   end
+
 
 
 end
