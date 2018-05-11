@@ -19,3 +19,7 @@ f_t_s = Subscription.create(name: "Faraz's Tennis Subscription", user_id: faraz.
 
 d_s_s = Subscription.create(name: "Drin's Soccer Subscription", user_id: drin.id, sport_id: soccer.id)
 d_f_s = Subscription.create(name: "Drin's Football Subscription", user_id: drin.id, sport_id: football.id)
+
+nyc = City.create(name: "New York City", state: "New York")
+
+mets = Team.create(name: "Mets", mascot: "Mr. Met", colors: "Blue, Orange", championships: 0, sport_id: baseball.id, city_id: nyc.id)

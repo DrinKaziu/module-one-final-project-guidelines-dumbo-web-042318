@@ -99,15 +99,17 @@ class CommandLineInterface
           show_subscriptions
           puts "What would you like to do next?\n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
           answer = gets.chomp
-        elsif answer == "4"
+       elsif answer == "4"
           puts "Thanks for stopping bye. See you soon!"
           break
-        else
+       else
           puts "Please enter a valid number from options above. \n 1) follow a sport\n 2) remove a sport\n 3) show all the sports you follow\n 4) sign out"
           answer = gets.chomp
-        end
-      end
-    end
+       end
+     end
+   end
+
+
 end
 
 
